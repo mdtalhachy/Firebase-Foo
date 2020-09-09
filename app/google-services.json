@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "749639967099",
+    "firebase_url": "https://fir-foo-ab7ba.firebaseio.com",
+    "project_id": "fir-foo-ab7ba",
+    "storage_bucket": "fir-foo-ab7ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749639967099:android:d43e2c219556728f541dde",
+        "android_client_info": {
+          "package_name": "rocks.talha.firebasefoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749639967099-90qbjts7gl62ettutan2dt3frhpjrf7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3eHWZ1MyzDMgCLs2nIXzwLx3Ykk5yVrQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749639967099-90qbjts7gl62ettutan2dt3frhpjrf7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
