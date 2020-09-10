@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -99,21 +101,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Getting whole child data from Firestore
-        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("cities").document("BJ");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        //Getting specific fields from child in Firestore
+        FirebaseFirestore.getInstance().collection("cities").whereEqualTo("capital", true)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    DocumentSnapshot snapshot = task.getResult();
-                    if(snapshot.exists()){
-                        Log.d("Document", snapshot.getData().toString());
-                    }else{
-                        Log.d("Document", "onComplete: No Data");
+                    for(QueryDocumentSnapshot doc: task.getResult()){
+                        Log.d("Document", doc.getId() + "=>" + doc.getData());
                     }
                 }
             }
         });
+
 
         /*
         HashMap<String, Object> map = new HashMap<>();
