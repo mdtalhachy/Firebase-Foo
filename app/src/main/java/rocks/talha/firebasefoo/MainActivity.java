@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -97,9 +99,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Updating existing data
-        DocumentReference ref = FirebaseFirestore.getInstance().collection("cities").document("HOL");
-        ref.update("capital", true);
+        //Getting whole child data from Firestore
+        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("cities").document("BJ");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot snapshot = task.getResult();
+                    if(snapshot.exists()){
+                        Log.d("Document", snapshot.getData().toString());
+                    }else{
+                        Log.d("Document", "onComplete: No Data");
+                    }
+                }
+            }
+        });
 
         /*
         HashMap<String, Object> map = new HashMap<>();
