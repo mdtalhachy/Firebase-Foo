@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -100,12 +101,13 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> data = new HashMap<>();
-        data.put("capital", false);
+        data.put("name", "Japan");
+        data.put("capital", "Tokyo");
 
-        db.collection("cities").document("HOL").set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("cities").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(MainActivity.this, "Merge Successful!", Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Toast.makeText(MainActivity.this, "Values Added Successfully!", Toast.LENGTH_SHORT).show();
             }
         });
 
