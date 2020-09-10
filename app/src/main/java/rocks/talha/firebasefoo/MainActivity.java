@@ -97,19 +97,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Adding data to Firestore
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", "Japan");
-        data.put("capital", "Tokyo");
-
-        db.collection("cities").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                Toast.makeText(MainActivity.this, "Values Added Successfully!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //Updating existing data
+        DocumentReference ref = FirebaseFirestore.getInstance().collection("cities").document("HOL");
+        ref.update("capital", true);
 
         /*
         HashMap<String, Object> map = new HashMap<>();
