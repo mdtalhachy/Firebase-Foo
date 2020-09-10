@@ -13,15 +13,19 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,14 +73,16 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.list_item, list);
         listView.setAdapter(adapter);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Stack");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Information");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    list.add(snapshot.getValue().toString());
+                    Information info = snapshot.getValue(Information.class);
+                    String text = info.getName() + " : " + info.getEmail();
+                    list.add(text);
                 }
 
                 adapter.notifyDataSetChanged();
@@ -88,14 +94,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("n1", "Java");
-        map.put("n2", "Scala");
-        map.put("n3", "Rust");
-        map.put("n4", "Go");
-        FirebaseDatabase.getInstance().getReference().child("Stack").updateChildren(map);
-         */
+
+        //Adding data to Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> city = new HashMap<>();
+        city.put("Name", "Gopalganj");
+        city.put("Division", "Dhaka");
+        city.put("Country", "Bangladesh");
+
+        db.collection("cities").document("HOL").set(city).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Values added successfully!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         /*
         HashMap<String, Object> map = new HashMap<>();
